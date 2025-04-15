@@ -1,4 +1,5 @@
 from sfml import sf
+from KeybindingsParser import parse_controller_config  # 新增导入
 
 class Controller:
     A = 0
@@ -14,16 +15,9 @@ class Controller:
     def __init__(self):
         self.m_strobe = False
         self.m_key_states = 0
-        self.m_key_bindings = [
-            sf.Keyboard.J,          # A
-            sf.Keyboard.K,          # B
-            sf.Keyboard.R_SHIFT,    # Select
-            sf.Keyboard.RETURN,     # Start
-            sf.Keyboard.W,          # Up
-            sf.Keyboard.S,          # Down
-            sf.Keyboard.A,          # Left
-            sf.Keyboard.D           # Right
-        ]
+        # 初始化时加载配置文件（示例路径）
+        self.m_key_bindings = [sf.Keyboard.A] * self.TotalButtons  # 默认值
+        parse_controller_config("keybindings.conf", self.m_key_bindings, [])  # 根据实际路径调整
 
     def strobe(self, b: int):
         self.m_strobe = bool(b & 1)
